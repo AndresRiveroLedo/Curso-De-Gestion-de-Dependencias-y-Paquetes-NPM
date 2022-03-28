@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 📒 v1 - Acerca de NPM, paquetes y módulos
 
 ## ¿Qué es NPM (node package manager) ? 
@@ -229,7 +228,3 @@ Para ver los paquetes o dependencia instalados de forma global
 # 📒 v15 
 
 ![resumen completo](./img/v4.png)
-=======
-# Curso-De-Gestion-de-Dependencias-y-Paquetes-NPM
-Veremos algunos comandos para gestionar paquetes en NPM
->>>>>>> ab83a6acddda0c6f188eb8ab77e331df926aa17b
