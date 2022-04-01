@@ -555,7 +555,102 @@ De acuerdo a lo que vi en la clase, cuando se hacen los cambios en major es porq
 
 ## Que es lo que vino a resolver el archivo package-lock.json?
 
-Básicamente se asegura de que las versiones de las dependencias sean las mismas a las que nuestro software soporta al momento de que alguien más comienza a trabajar en el proyecto. Esto en base al Package.json
+Básicamente se asegura de que las versiones de las dependencias sean las mismas a las que nuestro software soporta al momento de que alguien más comienza a trabajar en el proyecto. Esto en base al Package.json.
+
+# 📒 v9  Ejecutar tareas
+
+Ejecutar tareas o script los cuales son comando que podemos establecer y ejecutar desde la consola, y podemos crear los que necesitemos además van a correr de forma nativa dentro de nuestra terminal, para nombrarlo debe ser un shortcut de lo que vamos a ejecutar con npm run <script-name>
+```
+    "scripts": {
+        "build": "webpack --mode production",
+        "start": "webpack-dev-server --open --mode development",
+        "format": "prettier --write '{**.js,src/**/*.{js,jsx}}'"
+        "lint": "eslint src/ --fix",
+        //aqui podemos concatenar dos comandos
+        "deploy": "npm run format && npm run build"
+    }
+```
+
+Puedes también especificar scripts con el prefijo “pre” que se ejecutarán automáticamente antes del comando que ejecutaste. Por ejemplo, si defines el comando build y prebuild, cuando corras npm run build el comando prebuild se ejecutará primero. Esto sirve para poder ejecutar tareas que hagan algún tipo de preparación necesaria para correr el comando principal. Sin embargo, hay que hacer notar que si el comando pre falla (retorna un valor que no es 0) el comando principal no se ejecutará. Esto es algo bueno ya que si nuestro proceso de preparación no se realiza de forma exitosa, puede que tengamos problemas al querer ejecutar la tarea principal.
+
+```
+    "presass-build": "(rm css/*.css; rm css/*.css.map) || exit 0"
+```
+
+Ese es un ejemplo de un comando que hice hace un tiempo. rm puede fallar si el directorio css está vacio, y en ese caso no hay problema, la tarea principal puede funcionar sin ningún problema ya que presass-build tiene el propósito de vaciar ese directorio.
+
+En algunas ocaciones, sin embargo, la tarea previa puede fallar sin que eso afecte la ejecución de la tarea principal. En esos casos puedes usar || exit 0 para retornar 0:
+
+
+Algo que también faltó mencionar es que `npm run` agrega el directorio ./node_modules/bin/ al PATH de modo que para ejecutar un comando no es necesario agregar la ruta completa. Esto es algo que hace tiempo me confundió, cuando vi que Laravel ejecuta un comando setenv y yo quice buscarlo en mi computadora con which setenv y resultó que el comando no existía. Esto es porque en realidad el binario está ubicado en node_modules/bin/
+
+Añadir comandos a npm suele ser buena idea pues nos ayudan a tener shortcuts de comandos más largos, lo genial es que frameworks como Vue ya traen pre escritos estos comandos para que solo nos preocupemos en desarrollar.
+
+## ¿que es lo que hace exactamente lo que quiso decir el profesor del comando npm run test y npm start?
+
+npm start y npm test son alias para los comandos npm run start y npm run test, eso significa que al ser muy utilizados se provee una solución para ejecutar los comandos de una manera más corta (sin la palabra run).
+
+## ¿Que significa llevar un proyecto a produccion?
+
+Hola Juan!
+En la vida real, es decir, en los trabajos 😛
+El código se trabaja en una area para llama pre-producción para hacer ahí todo el testing y ver si realmente el el código y el programa está funcionando como se desea.
+Cuando pasa las pruebas de los testers, se sube, copia, duplica (depende de la arquitectura del software) se pasa a producción, es decir, a otro server.
+
+## ¿Que significa hacer un deploy?
+
+En términos generales, la palabra deploy es utilizada para describir que algo fue colocado en su posición. También se utiliza cuando un sistema es habilitado para su uso, ya sea un ambiente de desarrollo, para realizar pruebas o producción.
+
+Básicamente es desplegar/publicar tu aplicación o tu web haciendo uso de algún servicio de infraestructura (servidores, dominios, redes, etc). Un ejemplo es cuando usas los servicios que tiene Github para publicar algo que tengas en tu repositorio, en el momento en que tu sitio o aplicación esta disponible para que se pueda visitar significa que fue desplegada.
+
+## Puedo ejecutar dos librerias en una sola tarea?
+
+Si en tu paquete en la seccion de script especificars que tarea correr y una tarea puede corrar 2 o mas.
+
+# 📒 v10 - Solución de problemas
+
+Cuando estés trabajando con proyectos que están usando NPM te vas a topar con una gran cantidad de posibles errores que vas a tener. Estos errores pueden ser desde la configuración, pueden ser desde el sistema operativo, espacios, no haber configurado correctamente tu GitHub, no haber establecido bien los datos del package, haber dejado un typo u algún elemento extraño dentro de esta configuración así como una serie de errores que pueden generarse, que no están ligados directamente a NPM.
+
++ Uno de los problemas que podemos toparnos en la construcción de nuestro proyectos trabajando con un equipo es que nuestros archivos de node__moduls no estén correctamente instalados o tengamos una versión anterior, una forma de solucionarlo es eliminar la carpeta de ‘node_modules’ o ejecutar un comando que a nosotros nos va a dar seguridad de limpiar ese ‘cache’ que pueda llegar a existir.
+    + `npm run build --d` lo primero es poder ver todo el detalle de la ejecución de nuestro comando y lo hacemos con el flag --d para esto tenemos que leer detenidamente y así poder determinar la causa de nuestro error, de la misma forma al final no deja un archivo .log que podemos abrir con el comando code <ruta> este archivo nos dará una bitácora de toda la ejecución
+    + `npm cache clean -f` o npm cache clean --force eliminar la caché
+    + `npm cache verify` con este vamos a poder ver si ya la cache ha sido eliminada y que todas las instalaciones de nuestros recursos van a ir hacia los servidores de NPM
+    + `rm -rf <Carpeta/>` Eliminar una carpeta y después corremos npm install para que se vuelvan a instalar todas las dependencias.
+    + `sudo npm install -g rimraf` este ayuda al borrado de la carpeta de carpetas de forma segura y los instalaremos de forma global, ahora para ejecutarlo lo haremos con el comando rimraf <carpeta>
+
+## ¿Entonces, si me traigo un proyecto y no tengo las dependencias que necesita para correr, tengo que ejecturar npm install antes de poder correrlo?
+
+Si así es, siempre que descargues un proyecto de Github este viene acompañado de un archivo package.json el cual contiene las dependencias necesarias para funcionar ejecutas npm install y va a instalar las dependencias luego ya puedes correrlo con su respectivo comando.
+
+## ¿Cual es diferencia de rm -rf y rimraf?
+
++ rimraf es un paquete adicional para que puedas eliminar de forma segura la carpeta de node_modules.
+
++ rm -rf es el comando de los sistemas basados en Unix (Linux y Mac) para eliminar de forma recursiva y forzada.
+
+## ¿Cual es la diferencia ente -f y --force?
+
+ ninguna, sólo se escribe de manera diferente. Generalmente con un guion y una letra seria la abreviacion del comando con dos guiones y la palabra entera.
+
+ # 📒 v11 - Seguridad
+
+## Seguridad
++ `npm audit` para ver las vulnerabilidades que tenemos en nuestro proyecto
++ `npm audit --json` nos genera un json con información un poco mas detallada de lo que esta pasando con estos paquetes que instalamos
++ Una ves sepamos cual es la vulnerabilidad podemos proceder a actualizar cualquiera de los paquetes ejem: `npm update eslint-utils --depth 2` esto para instalar todas sus dependencias
++ `nom audit fix` es para solucionar las vulnerabilidades que tengamos en nuestro proyecto básicamente, actualiza a la ultima version nuestros paquetes con las dependencias que requieren, después de esto volvemos a correr npm audit para ver que ya no tenemos vulnerabilidades.
++ También hay una herramienta que garantiza que estemos siempre actualizados con nuestras dependencias del proyecto y es snyk.io
+
+Genial, algo curioso es que si tienes un proyecto en GitHub, hay una cosa llamada DependaBot que igual busca estas vulnerabilidades en tus paquetes y te hace un pull request solucionándolas, aunque no se qué tan parecido sea a npm audit 🤔
+
+
+ ## ¿Sería recomendable primero intentar solucionar con npm audit fix y lo que no se solucione lo actualizamos de a uno?
+
+ Sí, ese seria el camino idóneo para auditar nuestros proyectos.
+
+ ## Porque 2 y no 1 o 3 cuando ejecuto el comando npm update eslint-utils --depth 2
+
+No siempre es 2 el depth tienes que ejecutar primero el comando npm audit y en el reporte te da detalles del error y e comando que necesitas correr, en el caso de oscar le aparecio
 
 # 📒 v15 
 
