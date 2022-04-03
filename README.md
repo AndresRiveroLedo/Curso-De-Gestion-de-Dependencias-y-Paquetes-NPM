@@ -650,7 +650,141 @@ Genial, algo curioso es que si tienes un proyecto en GitHub, hay una cosa llamad
 
  ## Porque 2 y no 1 o 3 cuando ejecuto el comando npm update eslint-utils --depth 2
 
-No siempre es 2 el depth tienes que ejecutar primero el comando npm audit y en el reporte te da detalles del error y e comando que necesitas correr, en el caso de oscar le aparecio
+No siempre es 2 el depth tienes que ejecutar primero el comando npm audit y en el reporte te da detalles del error y e comando que necesitas correr, en el caso de oscar le aparecio.
+
+# 📒 v12 - Crear un paquete para NPM
+
+En esta clase crearemos un paquete para poder publicarlo.
+⠀⠀
+Inicializamos nuestro como hemos aprendido con `git init` y `npm init`.
+⠀⠀
+Dentro crearemos nuestra carpeta src donde vivirá nuestro código y otra de bin
+
+![archivo](./img/v12.png)
+
+Creamos un archivo index.js y colocamos lo siguiente.
+
+```⠀⠀
+    const messages = ["Oscar", "Ana", "Nikolai", "Diego", "Laura"];
+
+    const randomMsg = () => {
+    const message = messages[Math.floor(Math.random() * mesagges.length)];
+    console.log(mesagge);
+    };
+
+    module.exports = { randomMsg };
+```
+⠀⠀
+Estamos creando un array llamado messages → que vivirá dentro de una función(randomMsg). Ahí iniciamos una constante cuyo valor llama al array, pero con la función Math.floor() que redonda nuestros valores hacía abajo y dentro Math.random() el cuál multiplicamos por la longitud del array.
+⠀⠀
+Por último llamamos un console.log() que nos mostrará el mensaje random.
+⠀⠀
+Dentro de la carpeta bin crearemos un archivo llamado global. Escribimos la siguiente linea:
+
+```
+    #!/usr/bin/env node
+    let random = require('../src/index.js');
+```
+random.randomMsg();
+⠀⠀
+Iniciamos random importando nuestro código de index.js. Luego lo llamamos para ejecutar el programa.
+```
+    #!/usr/bin/env node
+```
+Es una instancia de una línea shebang, la primera línea en un archivo de texto plano ejecutable en plataformas similares a Unix que le dice al sistema; a qué intérprete debe pasar ese archivo para su ejecución, a través del comando línea siguiendo la magia #! prefijo (llamado shenbang).
+⠀⠀
+Vamos a editar nuestro archivo package.json.
+⠀⠀
+Debajo de “license” definimos bin, colocamos nuestro script y su ruta. Después seteamos “preferGlobal” con true
+
+```
+    {
+    "name": "random-mesagges",
+    "version": "1.0.0",
+    "description": "Vamos a crear un paquete para NPM",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Iván García <ivangm180@gmail.com>",
+    "license": "MIT",
+    "bin": {
+        "random-msg": "./bin/global.js"
+    },
+    "preferGlobal": true
+
+    }
+```
+## ¿ que hace la línea “#!/usr/bin/env node” en global.js ni porque añade “bin” : {} en package.json sin decir si es un método, comando o lo que sea del package.json.?
+
+bin es una es una carpeta donde se guardan binarios (archivos ejecutables).
+
+# 📒 v13 - Publicar un paquete en NPM
+
++ Publicar paquete
+    + `-npm link`: Nos crea una referencia a este paquete en la carpeta global (.npm-global), hacia los servidores de npm de forma natural.
+    + `-random-msg`: ejecutamos nuestro paquete, que este se encuentra de forma global
+    + `-npm install -g /mnt/c/Users/USUARIO/Documents/Projects/random-messages`: Nos ayudara a instalar las actualizaciones que hagamos en el proyecto hasta npm
+    + `-npm adduser`: Hacer login en la terminal para conectarme a npm
+    + `-npm publish`: Nos permite leer la configuración del package.json y con ello establecer las configuración a npmjs
+
+## Eliminar paquetes publicados
+1 . Si quieres eliminar el paquete o versión publicada para los paquetes recién creados, siempre que ningún otro paquete en el Registro público de npm dependa de su paquete, puede anular la publicación en cualquier momento dentro de las primeras 72 horas después de la publicación, a menos que usted sea el único propietario del módulo con:
+
+``` 
+    npm unpublish <package_name> --force
+```
+
+y si se quiere anular la publicación de una versión en específico:
+
+```
+    npm unpublish <package_name>@<version>
+```
++ 2 . Para paquetes que tienen publicados más de 72 horas, independientemente de cuánto tiempo hace que se publicó un paquete, puede anular la publicación de un paquete que cumpla con lo siguiente:
+    + ningún otro paquete en el Registro Público de npm depende de otro
+    + tuvo menos de 300 descargas durante la última semana
+    + tiene un solo propietario / mantenedor
+    + npm tiene detalles de la política para anular la publicación de paquetes, más detalles aquí: npm Unpublish Policy 😉
+
+## Solución al error “403 Forbidden - PUT http://registry.npmjs.org/random-messages - You do not have permission to publish “random-messages”. Are you logged in as the correct user?”
+.
+En el archivo package.json cambiar el atributo name a un nombre original, puesto que el profe ya subió su repositorio con el nombre de random-messages, por lo que no podemos tener nosotros un proyecto del mismo nombre en NPM 😉
+
+## Cuales son las diferencias de las dos formas de “linkear” el paquete? Porque si es como dijo el profe que **npm link** ya es una herramienta que nos da NPM, es mas sencillo y rapido que npm install y copiar y pegar el pwd
+
++ La gran diferencia es que npm install /local/path/x ejecutará los ganchos de preinstalación / postinstall, pero npm link x no lo hará.
+
++ El enlace npm usa el espacio NPM global, npm install /local/path/x no lo hace. npm link crea un enlace simbólico ax en el espacio global, y luego, cuando llama al enlace npm x desde y, crea un enlace simbólico no directamente a x, sino al enlace simbólico global. Esta es una diferencia importante si está utilizando diferentes versiones globales de node.js, por ejemplo, NVM.
+
++ npm install /absolute/path/x alterará package.json, npm link x no.
+
+# 📒 v14 - Paquetes privados
+
++ Para mejorar nuestros paquete y que cuente con los requerimientos mínimos para serlo haremos lo siguiente:
+    + crearemos un buen README.md en donde vamos a explicar lo que hará nuestro paquete osea toda nuestra documentación, además esto debe estar en ingles.
+    + Ademas debemos Conectarlo a un repositorio de github
+    + npm init ahora veremos que ya esta ligado a un repositorio, de igual forma podemos ver esta información en el package.json
++ `npm version <major |minor |patch>` nos permite actualizar la versión de nuestro proyecto o paquete ejem npm version patch y el resultado seria v1.0.1, muchas veces nos dira que debemos actualizar a la versión mas reciente de npm y lo hacemos con sudo install -g npm , si nos vamos al package veremos que la versión a cambiado, y para publicarlos volvemos a ejecutar el comando npm publish
++ `npm unpublish -f` para despublicar un paquete recuerda que debes estar ubicado en la carpeta raíz del proyecto
+
+## Para poder enviar el comando:
+
+```
+    	npm version patch/minor/major
+```
+Deben primero dejar limpio el working directory de git, es decir deben hacer un commit de los cambios que se realizaron o revertir cambios.
+
+Este error puede ocurrir cuando se añade en el package.json el repositorio de git, como se modifica el archivo es necesario hacerle commit antes de enviar el version patch.
+
+## ¿qué es gist?
+
+Un gist es un fragmento de código alojado en GitHub. Se suele usar para compartir estos fragmentos sin tener que hacer todo un repositorio.
+
+## README.md
+
+El README.md es básicamente toda la información que tú quieres dar de tu proyecto, ahí puedes poner lo que tú quieras y es MUY IMPORTANTE, realmente no pasa nada si no agregas ese archivo, pero ten en cuenta que cuando subes algo a GitHub otros programadores lo van a ver, y ellos van a querer entender qué es lo que hace tu código, y la forma más fácil de explicárselos es agregando un archivo README.md (README en español significa “Léeme”)
+
+Si te das cuenta, cuando entras a un repositorio de GitHub y te vas hasta abajo puedes ver que hay información sobre dicho proyecto, bueno, esa información toda está escrita en el README.md, GitHub lee ese archivo y pone la información ahí abajito 😄.
 
 # 📒 v15 
 
