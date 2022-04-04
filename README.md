@@ -79,7 +79,7 @@ Enlace oficial: https://nodejs.org/es/
 Significa que se aplicará globalmente.
 
 -g o --global para instalar dependencias globales
--S o --save para instalar dependencias globales
+-S o --save para instalar dependencias globales. El documento que vamos a instalar dentro del proyecto es necesario para vivir en produccion.
 -D o --save-dev para instalar dependencias globales
 
 ## ¿Que relación tienen los archivos : package.json, package-lock.json y yarn.lock
@@ -162,21 +162,21 @@ Luego nos saldrá lo siguiente:
 + `package name`: el nombre de nuestro proyecto, generalmente es el nombre de la carpeta
 + `version`: version con la que iniciaremos el proyecto, generalmente aparece 1.0.0
 + `description`: descripcion breve del proyecto
-+ `entry point`: punto de acceso a nuestro proyecto
++ `entry point`: punto de acceso a nuestro proyecto(ejemplo: src/index.js)
 + `test command`: comando para gestionar los test
 + `git repository`: repositorio de github u otro servicio
 + `keywords`: palabras claves del proyecto
 + `author**`: nombre del autor y < correo > 
-+ `**license`: licencia que tendrá el proyecto
++ `license`: licencia que tendrá el proyecto(Ejemplo: MIT
 
-```
-    <h3>2da opción (para hacer package rápido)</h3>
-```
+
+## 2da opción (para hacer package rápido)
+
 Escribimos `npm init -y` y esto generará un package.json vacio para que lo configuremos más adelante.
 
-``` 
-    <h3>3ra opción (configuramos algunos elementos)</h3>
-```
+ 
+## 3ra opción (configuramos algunos elementos(uno por uno))
+
 
 Escribimos en nuestra terminal:
 ```
@@ -225,7 +225,7 @@ Para ver los paquetes o dependencia instalados de forma global
     npm list -g --depth 0
 ```
 
-PD: Instalar siempre los paquetes dentro de la carpera raíz del proyecto. 
+`PD: Instalar siempre los paquetes dentro de la carpera raíz del proyecto.` 
 
 ## ¿Cómo puedo saber si una librería es de desarrollo o de producción?
 
@@ -235,15 +235,15 @@ Sé que en un principio puede no ser tan fácil de responder, pero uno le va aga
 
 Te dejo un par de ejemplos:
 
-Eslint: ¿Esta librería la necesita mi proyecto para correr? No, esta librería lo que hace es marcarme los errores mientras estoy escribiendo el código.
+Eslint: ¿Esta librería la necesita mi proyecto para correr? No, esta librería lo que hace es marcarme los errores mientras estoy escribiendo el código. (dep. de desarrollo)
 
-Babel: ¿Mi proyecto necesita esto para correr? No, la estoy usando para que todo el código de JavaScript que estoy usando se compile en un archivo que entiendan todos los navegadores.
+Babel: ¿Mi proyecto necesita esto para correr? No, la estoy usando para que todo el código de JavaScript que estoy usando se compile en un archivo que entiendan todos los navegadores. (dep. de desarrollo)
 
-React: ¿Mi proyecto necesita esto para correr? Si, sin esta librería mi proyecto deja de funcionar.
+React: ¿Mi proyecto necesita esto para correr? Si, sin esta librería mi proyecto deja de funcionar. (dep. de producción)
 
 ## ¿Que quiere decir instalar de forma “opcional” un paquete?
 
-En tu proyectos puedes tener dependencias que son opcionales, es decir, que el proyecto puede correr hasta cierto punto. una ventaja para este tipo de dependencias es que puedes acelerar el proceso de instalación de los proyectos.
+En tu proyectos puedes tener dependencias que son opcionales, es decir, que el proyecto puede correr hasta cierto punto. Una ventaja para este tipo de dependencias es que puedes acelerar el proceso de instalación de los proyectos.
 
 Imagina que tiene un proyecto donde aplicas integración continua y un conjunto de pruebas. Y tienes estos 4 trabajos: construcción, linting, pruebas unitarias y pruebas de extremo a extremo. En cada una de ellas se instalan las dependencia en primer lugar, pero puede ocurrir que una dependencia la necesites solo en el ultimo paso, ahí es donde la dependencia opcional es una buena opción y evitas que se instale y tarde más.
 
@@ -263,7 +263,7 @@ https://docs.npmjs.com/cli/v6/configuring-npm/package-json
 
 ## Carpeta node_modules
 
-La carpeta node_modules se crea al instalar el primer modulo, paquete o dependencia. En esta carpeta se instalará los modulos que iremo creando o instalando. Esta carpeta debemos de ignorarla como buena práctica en el archivo .gitignore
+`nLa carpeta node_modules se crea al instalar el primer modulo, paquete o dependencia`. En esta carpeta se instalará los modulos que iremos creando o instalando. Esta carpeta debemos de ignorarla como buena práctica en el archivo .gitignore
 
 ## ¿Cuál es la diferencia entre librería, módulo, paquete, dependencia?
 
@@ -287,14 +287,14 @@ Hacen referencia a dependencias que no necesariamente impiden el funcionamiento 
 
 ## ¿Y como se cuales dependecias debo instalar con el comando --save?
 
-+ –save
++ --save
     + Dependencias
         + Paquetes necesarios para el funcionamiento de tu aplicación.
     + Ejemplo:
         + React
         + Next
         + React-Dom
-+ –save-dev
++ --save-dev
     + Dependencias de desarrollo
         + Paquetes que se usan en el ambiente de desarrollo
     + Ejemplo:
@@ -307,7 +307,7 @@ Hacen referencia a dependencias que no necesariamente impiden el funcionamiento 
 
 Anteriormente tenias que especificar algun flag, pero en npm hicieron unos cambios y ahora el flag por defecto es –save, este flag permite que se actualice tu archivo package.json
 
-Hay otras opciones como –save-dev que actualiza el devDependencies en tu package. Con esto puedes usar la dependencia solo en desarrollo local y para hacer pruebas.
+Hay otras opciones como --save-dev que actualiza el devDependencies en tu package. Con esto puedes usar la dependencia solo en desarrollo local y para hacer pruebas.
 
 Tambien tienes la el flag –no-save* que instala la dependencia pero no actualiza tu package.
 
@@ -322,7 +322,7 @@ https://docs.npmjs.com/cli/v6/commands/npm-install
 + Despues creamos un archivo con `touch index.js`
 + Ahora hay que hacer `pwd` que nos indica la ruta donde estamos ya que las dependencias se deben instalar en nuestra carpeta raíz de nuestro proyecto y entonces nos movemos a esta raiz
 + Después para instalar un paquete, es aquí donde tomamos la decisión de como lo vamos a ejecutar,
-    + En el momento que instalamos el primer paquete se nos creara una carpeta `node_modules` aqui se instalaran lo modulos que estamos agregando a nuestro proyecto y sera necesaria para que este funcione, pero no debe ser enviada a ningun repositorio ni a nuestro proyecto a producción y por eso debemos ignorarla al nos mas se cree y para ello creamos un archivo `.gitignore` en la carpeta raiz y dentro de este escribimos `node_modules/`
+    + En el momento que instalamos el primer paquete se nos creara una carpeta `node_modules` aqui se instalaran lo modulos que estamos agregando a nuestro proyecto y sera necesaria para que este funcione, pero no debe ser enviada a ningun repositorio ni a nuestro proyecto a producción y por eso debemos ignorarla al crearla y para ello creamos un archivo `.gitignore` en la carpeta raiz y dentro de este escribimos `node_modules/`
     + `npm install <package>` este por defecto se instala como una dependencia requerida para el proyecto es decir que el paquete que instalas es necesario para vivir en produccion esto tiene otras variantes como `npm install <package> --save` aqui la palabra save se tomara por defecto y no es necesario escribirla o `npm install <package> --S` como ejemplo instalaremos npm install moment para manejar fecha en javascript o con el shortcut npm install moment --S
 
 ```
@@ -343,11 +343,11 @@ https://docs.npmjs.com/cli/v6/commands/npm-install
         }
 ```
 
-+ `npm install <package> -g` instalar un paquete de forma global, esto nos permite que podamos utilizar este paquete en diferentes proyectos por lo general se deben instalar estos paquetes con permisos de administrador. Ejem. sudo npm install -g nodemon nos permite generar un demonio que va a estar siempre escuchando algun cambio o algun valor y nos va dejar mantener en nuestro proceso algun comando que estemos ejecutando de node
++ `npm install <package> -g` instalar un paquete de forma global, esto nos permite que podamos utilizar este paquete en diferentes proyectos por lo general se deben instalar estos paquetes con permisos de administrador. Ejem. `sudo npm install -g nodemon` nos permite generar un demonio que va a estar siempre escuchando algun cambio o algun valor y nos va dejar mantener en nuestro proceso algun comando que estemos ejecutando de node
 
 Guia para no esta colocando permisos de administrador a cada rato https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
 
-+ `npm list -g—depth 0` (depth es la profundidad que va a buscar dentro de los paquetes) ver los paquetes que están instalados de forma global.
++ `npm list -g --depth 0` (depth es la profundidad que va a buscar dentro de los paquetes) ver los paquetes que están instalados de forma global.
 
 /usr/lib
 ├── nodemon@2.0.6
@@ -361,8 +361,8 @@ Guia para no esta colocando permisos de administrador a cada rato https://docs.n
     10 packages are looking for funding
     run `npm fund` for details
 ```
-+ npm install <package> --dry-run (simula la instalación) este flag indica que el paquete no va a ser instalado dentro del proyecto simplemente es una simulación nada mas nos muestra el output como si fuere instalado, despues de esto nosotros decidimos si la instalamos o no ejem: npm install react --dry-run
-npm install <package> -f o npm install <package> --force instalar algún paquete de forma forzada y nos va a permitir instalar este paquete forzándola a que sea desde el ultimo recurso o version y desde el servidor de NPM ejemplo npm install webpack -f si nos vamos al archivo package.json y vemos que el paquete se instalo en las dependencies pero estas deberieron estar en devdependencies podemos tomar el nombre de ese paquete cortarlo y pegarlo en el grupo que corresponda
++ npm install <package> --dry-run (simula la instalación) este flag indica que el paquete no va a ser instalado dentro del proyecto simplemente es una simulación nada mas nos muestra el output como si fuere instalado, despues de esto nosotros decidimos si la instalamos o no ejem:  `npm install react --dry-run`
+`npm install <package> -f o npm install <package> --force` instalar algún paquete de forma forzada y nos va a permitir instalar este paquete forzándola a que sea desde el ultimo recurso o version y desde el servidor de NPM ejemplo `npm install webpack -f` si nos vamos al archivo package.json y vemos que el paquete se instalo en las dependencies pero estas deberieron estar en devdependencies podemos tomar el nombre de ese paquete cortarlo y pegarlo en el grupo que corresponda
 ```
 //asi se instalo en dependecies
 "dependencies": {
@@ -408,8 +408,8 @@ Exacto, solo simula la instalacion y te entrega un output de que sucederia si lo
 Simplemente escribe npm install y volverá a aparecer solito, recuerda que ese archivo se genera con base en tu package.json 😄
 
 ## “dependencies”, “devDependencies”, “optionalDependencies”. ¿Cual es su diferencia?
-+ dependencies: Sirven para dependencias de producción, es decir, las que ajuro necesita nuestro codigo para funcionar correctamente.
-+ devDependenciers: Sirven para ayudarnos a desarrollar pero no son esenciales para el funcionamiento del proyecto. Por ejemplo los paquetes de testing por lo general son dependencias de desarrollo, ya que una vez probado nuestro codigo ya no sera necesario estas dependencias en producción.
++ dependencies: Sirven para dependencias de producción, es decir, las que necesita nuestro codigo para funcionar correctamente.
++ devDependenciers: Sirven para ayudarnos a desarrollar pero no son esenciales para el funcionamiento del proyecto. Por ejemplo los paquetes de testing por lo general son dependencias de desarrollo, ya que una vez probado nuestro código ya no sera necesario estas dependencias en producción.
 + optionalDependencies: Estas tal vez nos podrian ayudar a desarrollar y no son esenciales para el funcionamiento del codigo. Por ejemplo cowsay es un paquete que te permite dibujar en la terminal una vaca que habla, no sirve para desarrollar tampoco para el funcionamiento de la aplicación pero es divertida jejejeje
 
 
@@ -431,7 +431,7 @@ debes hacerlo de la siguiente forma (mas o menos):
     /node_modules/path/to/my/package my-file.js
 ```
 
-pero no es practico verdad? entonces podemos hacer que npx resuleva la ruta para ejecutar nuestro paquete (instalado de forma local, ya sea dev dependency o no):
+pero no es practico verdad? entonces podemos hacer que npx resuelva la ruta para ejecutar nuestro paquete (instalado de forma local, ya sea dev dependency o no):
 ``` 
     npx my-package my-file.js
 ```
@@ -498,10 +498,10 @@ Si, pero se puede mantener si instalas otra versión especifica dentro del paque
 
 ## ¿npm update o npm outdate corrobora las actualizaciones dependiendo la configuración que tiene package.json?
 
-asi es  por su puesto, el comando `npm update` respeta tu version constrain (ese es el nombre origianl) solo que el comando `npm outdate` te la seguira marcando como desactualizada.
+Asi es  por su puesto, el comando `npm update` respeta tu version constrain (ese es el nombre original) solo que el comando `npm outdate` te la seguira marcando como desactualizada.
 si usas el comando npm i <package>@latest ese no te respera el constrain
 
-¿ Se podría llegar a afectar otros paquetes al momento de actualizarlos?
+## ¿Se podría llegar a afectar otros paquetes al momento de actualizarlos?
 
 Es muy raro que llegue a pasar eso.
 
@@ -541,7 +541,7 @@ Y como resumen, en teoría cuando usas “^” permites el update de cambios men
 
 Anteriormente cuando sólo teníamos el package.json, pasaba que al clonar un paquete y hacer npm install se instalaban actualizaciones menores que rompían el paquete, todo por lo permisivo de semver.
 
-Ahora el archivo package.json.lock se encarga de presentar una captura estática del árbol de dependencias que estamos incluyendo en un proyecto. Ahora se respeta la versión exacta de la dependencia indicada, así cualquier persona del equipo, cuando ejecute npm install, será capaz de reproducir el mismo árbol que el de su compañero sin problemas dando estabilidad dentro de los proyectos.
+Ahora el archivo package-lock.json se encarga de presentar una captura estática del árbol de dependencias que estamos incluyendo en un proyecto. Ahora se respeta la versión exacta de la dependencia indicada, así cualquier persona del equipo, cuando ejecute npm install, será capaz de reproducir el mismo árbol que el de su compañero sin problemas dando estabilidad dentro de los proyectos.
 
 ## No me queda claro cuales son esas “ciertas configuraciones” que tiene el archivo package-lock.
 
@@ -551,7 +551,7 @@ Este archivo contiene información mucho más detallada de los paquetes que est�
 
 ## es decir que si hay una actualización en el major ( un cambio mayor) no se actualizará mi paquete automáticamente? Solamente se podrán realizar cambios automáticos minor y patch?
 
-De acuerdo a lo que vi en la clase, cuando se hacen los cambios en major es porque cambió toda la estructura, por ende cambiario minor y patch, ya que son solamente para cambios menores y parches. Esta es mi opinión que te comparto de lo que vi en esta clase. Ojalá más gente de la comunidad se sume a este comentario muy bueno que acabas de hacer. 
+
 
 ## Que es lo que vino a resolver el archivo package-lock.json?
 
@@ -605,13 +605,13 @@ Básicamente es desplegar/publicar tu aplicación o tu web haciendo uso de algú
 
 ## Puedo ejecutar dos librerias en una sola tarea?
 
-Si en tu paquete en la seccion de script especificars que tarea correr y una tarea puede corrar 2 o mas.
+Si en tu paquete en la seccion de script especificar que tarea correr y una tarea puede corrar 2 o mas.
 
 # 📒 v10 - Solución de problemas
 
 Cuando estés trabajando con proyectos que están usando NPM te vas a topar con una gran cantidad de posibles errores que vas a tener. Estos errores pueden ser desde la configuración, pueden ser desde el sistema operativo, espacios, no haber configurado correctamente tu GitHub, no haber establecido bien los datos del package, haber dejado un typo u algún elemento extraño dentro de esta configuración así como una serie de errores que pueden generarse, que no están ligados directamente a NPM.
 
-+ Uno de los problemas que podemos toparnos en la construcción de nuestro proyectos trabajando con un equipo es que nuestros archivos de node__moduls no estén correctamente instalados o tengamos una versión anterior, una forma de solucionarlo es eliminar la carpeta de ‘node_modules’ o ejecutar un comando que a nosotros nos va a dar seguridad de limpiar ese ‘cache’ que pueda llegar a existir.
++ Uno de los problemas que podemos toparnos en la construcción de nuestro proyectos trabajando con un equipo es que nuestros archivos de node__modules no estén correctamente instalados o tengamos una versión anterior, una forma de solucionarlo es eliminar la carpeta de ‘node_modules’ o ejecutar un comando que a nosotros nos va a dar seguridad de limpiar ese ‘cache’ que pueda llegar a existir.
     + `npm run build --d` lo primero es poder ver todo el detalle de la ejecución de nuestro comando y lo hacemos con el flag --d para esto tenemos que leer detenidamente y así poder determinar la causa de nuestro error, de la misma forma al final no deja un archivo .log que podemos abrir con el comando code <ruta> este archivo nos dará una bitácora de toda la ejecución
     + `npm cache clean -f` o npm cache clean --force eliminar la caché
     + `npm cache verify` con este vamos a poder ver si ya la cache ha sido eliminada y que todas las instalaciones de nuestros recursos van a ir hacia los servidores de NPM
@@ -630,7 +630,7 @@ Si así es, siempre que descargues un proyecto de Github este viene acompañado 
 
 ## ¿Cual es la diferencia ente -f y --force?
 
- ninguna, sólo se escribe de manera diferente. Generalmente con un guion y una letra seria la abreviacion del comando con dos guiones y la palabra entera.
+ Ninguna, sólo se escribe de manera diferente. Generalmente con un guión y una letra seria la abreviacion del comando con dos guiones y la palabra entera.
 
  # 📒 v11 - Seguridad
 
@@ -638,19 +638,19 @@ Si así es, siempre que descargues un proyecto de Github este viene acompañado 
 + `npm audit` para ver las vulnerabilidades que tenemos en nuestro proyecto
 + `npm audit --json` nos genera un json con información un poco mas detallada de lo que esta pasando con estos paquetes que instalamos
 + Una ves sepamos cual es la vulnerabilidad podemos proceder a actualizar cualquiera de los paquetes ejem: `npm update eslint-utils --depth 2` esto para instalar todas sus dependencias
-+ `nom audit fix` es para solucionar las vulnerabilidades que tengamos en nuestro proyecto básicamente, actualiza a la ultima version nuestros paquetes con las dependencias que requieren, después de esto volvemos a correr npm audit para ver que ya no tenemos vulnerabilidades.
++ `npm audit fix` es para solucionar las vulnerabilidades que tengamos en nuestro proyecto básicamente, actualiza a la ultima version nuestros paquetes con las dependencias que requieren, después de esto volvemos a correr npm audit para ver que ya no tenemos vulnerabilidades.
 + También hay una herramienta que garantiza que estemos siempre actualizados con nuestras dependencias del proyecto y es snyk.io
 
 Genial, algo curioso es que si tienes un proyecto en GitHub, hay una cosa llamada DependaBot que igual busca estas vulnerabilidades en tus paquetes y te hace un pull request solucionándolas, aunque no se qué tan parecido sea a npm audit 🤔
 
 
- ## ¿Sería recomendable primero intentar solucionar con npm audit fix y lo que no se solucione lo actualizamos de a uno?
+ ## ¿Sería recomendable primero intentar solucionar con `npm audit fix` y lo que no se solucione lo actualizamos de a uno?
 
  Sí, ese seria el camino idóneo para auditar nuestros proyectos.
 
- ## Porque 2 y no 1 o 3 cuando ejecuto el comando npm update eslint-utils --depth 2
+ ## ¿Por qué 2 y no 1 o 3 cuando ejecuto el comando npm update eslint-utils --depth 2?
 
-No siempre es 2 el depth tienes que ejecutar primero el comando npm audit y en el reporte te da detalles del error y e comando que necesitas correr, en el caso de oscar le aparecio.
+No siempre es 2 el depth tienes que ejecutar primero el comando npm audit y en el reporte te da detalles del error y el comando que necesitas correr, en el caso de oscar le aparecio `npm update eslint-utils --depth 2`.
 
 # 📒 v12 - Crear un paquete para NPM
 
@@ -679,7 +679,7 @@ Estamos creando un array llamado messages → que vivirá dentro de una función
 ⠀⠀
 Por último llamamos un console.log() que nos mostrará el mensaje random.
 ⠀⠀
-Dentro de la carpeta bin crearemos un archivo llamado global. Escribimos la siguiente linea:
+Dentro de la carpeta bin crearemos un archivo llamado global.js. Escribimos la siguiente linea:
 
 ```
     #!/usr/bin/env node
@@ -695,7 +695,7 @@ Es una instancia de una línea shebang, la primera línea en un archivo de texto
 ⠀⠀
 Vamos a editar nuestro archivo package.json.
 ⠀⠀
-Debajo de “license” definimos bin, colocamos nuestro script y su ruta. Después seteamos “preferGlobal” con true
+Debajo de “license” definimos `bin`, colocamos nuestro script y su ruta. Después seteamos `preferGlobal` con true
 
 ```
     {
@@ -722,11 +722,11 @@ bin es una es una carpeta donde se guardan binarios (archivos ejecutables).
 # 📒 v13 - Publicar un paquete en NPM
 
 + Publicar paquete
-    + `-npm link`: Nos crea una referencia a este paquete en la carpeta global (.npm-global), hacia los servidores de npm de forma natural.
-    + `-random-msg`: ejecutamos nuestro paquete, que este se encuentra de forma global
-    + `-npm install -g /mnt/c/Users/USUARIO/Documents/Projects/random-messages`: Nos ayudara a instalar las actualizaciones que hagamos en el proyecto hasta npm
-    + `-npm adduser`: Hacer login en la terminal para conectarme a npm
-    + `-npm publish`: Nos permite leer la configuración del package.json y con ello establecer las configuración a npmjs
+    + `npm link`: Nos crea una referencia a este paquete en la carpeta global (.npm-global), hacia los servidores de npm de forma natural.
+    + `random-msg`: ejecutamos nuestro paquete, que este se encuentra de forma global
+    + `npm install -g /mnt/c/Users/USUARIO/Documents/Projects/random-messages`: Nos ayudara a instalar las actualizaciones que hagamos en el proyecto hasta npm
+    + `npm adduser`: Hacer login en la terminal para conectarme a npm
+    + `npm publish`: Nos permite leer la configuración del package.json y con ello establecer las configuración a npmjs
 
 ## Eliminar paquetes publicados
 1 . Si quieres eliminar el paquete o versión publicada para los paquetes recién creados, siempre que ningún otro paquete en el Registro público de npm dependa de su paquete, puede anular la publicación en cualquier momento dentro de las primeras 72 horas después de la publicación, a menos que usted sea el único propietario del módulo con:
@@ -741,9 +741,9 @@ y si se quiere anular la publicación de una versión en específico:
     npm unpublish <package_name>@<version>
 ```
 + 2 . Para paquetes que tienen publicados más de 72 horas, independientemente de cuánto tiempo hace que se publicó un paquete, puede anular la publicación de un paquete que cumpla con lo siguiente:
-    + ningún otro paquete en el Registro Público de npm depende de otro
-    + tuvo menos de 300 descargas durante la última semana
-    + tiene un solo propietario / mantenedor
+    + ningún otro paquete en el Registro Público de npm depende de otro.
+    + tuvo menos de 300 descargas durante la última semana.
+    + tiene un solo propietario / mantenedor.
     + npm tiene detalles de la política para anular la publicación de paquetes, más detalles aquí: npm Unpublish Policy 😉
 
 ## Solución al error “403 Forbidden - PUT http://registry.npmjs.org/random-messages - You do not have permission to publish “random-messages”. Are you logged in as the correct user?”
@@ -754,7 +754,8 @@ En el archivo package.json cambiar el atributo name a un nombre original, puesto
 
 + La gran diferencia es que npm install /local/path/x ejecutará los ganchos de preinstalación / postinstall, pero npm link x no lo hará.
 
-+ El enlace npm usa el espacio NPM global, npm install /local/path/x no lo hace. npm link crea un enlace simbólico ax en el espacio global, y luego, cuando llama al enlace npm x desde y, crea un enlace simbólico no directamente a x, sino al enlace simbólico global. Esta es una diferencia importante si está utilizando diferentes versiones globales de node.js, por ejemplo, NVM.
++ El enlace npm usa el espacio NPM global, npm install /local/path/x no lo hace. 
++ npm link crea un enlace simbólico ax en el espacio global, y luego, cuando llama al enlace npm x desde y, crea un enlace simbólico no directamente a x, sino al enlace simbólico global. Esta es una diferencia importante si está utilizando diferentes versiones globales de node.js, por ejemplo, NVM.
 
 + npm install /absolute/path/x alterará package.json, npm link x no.
 
@@ -764,7 +765,7 @@ En el archivo package.json cambiar el atributo name a un nombre original, puesto
     + crearemos un buen README.md en donde vamos a explicar lo que hará nuestro paquete osea toda nuestra documentación, además esto debe estar en ingles.
     + Ademas debemos Conectarlo a un repositorio de github
     + npm init ahora veremos que ya esta ligado a un repositorio, de igual forma podemos ver esta información en el package.json
-+ `npm version <major |minor |patch>` nos permite actualizar la versión de nuestro proyecto o paquete ejem npm version patch y el resultado seria v1.0.1, muchas veces nos dira que debemos actualizar a la versión mas reciente de npm y lo hacemos con sudo install -g npm , si nos vamos al package veremos que la versión a cambiado, y para publicarlos volvemos a ejecutar el comando npm publish
++ `npm version <major |minor |patch>` nos permite actualizar la versión de nuestro proyecto o paquete ejem npm version patch y el resultado seria v1.0.1, muchas veces nos dira que debemos actualizar a la versión mas reciente de npm y lo hacemos con sudo install -g npm , si nos vamos al package veremos que la versión ha cambiado, y para publicarlos volvemos a ejecutar el comando npm publish
 + `npm unpublish -f` para despublicar un paquete recuerda que debes estar ubicado en la carpeta raíz del proyecto
 
 ## Para poder enviar el comando:
@@ -789,3 +790,65 @@ Si te das cuenta, cuando entras a un repositorio de GitHub y te vas hasta abajo 
 # 📒 v15 
 
 ![resumen completo](./img/v4.png)
+
+
+# Preguntas y respuestas
+
+1. ¿Cuál es el comando que nos permite inicializar nuestros proyectos en git?
+
+    git init
+
+2. ¿Cuál es el comando que nos permite inicializar nuestros proyectos con npm?
+
+    npm init
+
+3. ¿Qué funcionalidad tiene el archivo 'package.json'?
+
+    Contiene la información general del proyecto: scripts, dependencias y configuraciones de un proyecto
+
+4. ¿Cuál es el comando para agregar el nombre del autor a la configuración por defecto de NPM?
+
+    npm set init.author.name "example_user"
+
+5.  ¿Para qué se usa el comando 'npm init -y'?
+
+    Establece la configuración por defecto para el archivo package.json
+
+6.  ¿Para qué nos sirve el flag --save?
+    
+    Instala y agrega la entrada a las dependencias del archivo package.json
+
+7.  ¿Para qué nos sirve el flag '--save-optional o -O'?
+
+    El paquete aparecerá en “optionalDependencies”.
+
+8. Identifica cuál es una instalación de una dependencia global
+
+    npm install -g nodemon
+9. ¿Cuál es el comando que nos permite identificar las dependencias globales instaladas en nuestro sistema?
+
+    npm list -g --depth 0
+
+10. ¿Cuál es el ejemplo correcto para instalar la versión más reciente de un paquete?
+
+    npm install json-server@latest
+
+11. ¿Cuál es el comando para listar los paquetes y módulos instalados?
+
+    npm list
+
+12. ¿Cuál es el alias de 'npm run start'?
+    
+    npm start
+
+13. ¿Cuál es el comando que nos permite ver todo el output en la terminal/consola?
+
+    npm run build --dd
+
+14. ¿Cuál es el comando que nos permite ver una auditoría en formato json?
+
+    npm audit --json
+
+15. ¿Cuál es el comando que nos permite publicar un paquete en npmjs.com?
+
+    npm publish
